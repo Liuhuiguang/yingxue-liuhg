@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuhg.dao.CategoryMapper">
+    <resultMap id="all" type="Category">
+        <id column="yid" property="id"/>
+        <result column="ycate_name" property="cateName"/>
+        <result column="ylevels" property="levels"/>
+        <result column="yparent_id" property="parentId"/>
+        <collection property="categories" javaType="List" ofType="Categorys">
+            <id column="xid" property="id"/>
+            <result column="xcate_name" property="cateName"/>
+            <result column="xlevels" property="levels"/>
+            <result column="xparent_id" property="parentId"/>
+        </collection>
+    </resultMap>
+    <select id="queryCategoryAll" resultMap="all">
+        select y.id yid,y.cate_name ycate_name,y.levels ylevels,y.parent_id yparent_id,
+        x.id xid,x.cate_name xcate_name,x.levels xlevels,x.parent_id xparent_id
+        from yx_category y left join yx_category x
+        on y.id=x.parent_id where y.levels=1
+    </select>
+</mapper>
